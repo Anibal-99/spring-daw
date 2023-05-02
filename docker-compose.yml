@@ -19,9 +19,19 @@ services:
     depends_on:
       - db
   db:
+    ports:
+      - 5432:5432
     image: postgres
     restart: always
     environment:
       POSTGRES_PASSWORD: mydbpassword
     volumes:
       - ./.postgresql_data:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    ports:
+      - "5123:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@example.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    restart: always

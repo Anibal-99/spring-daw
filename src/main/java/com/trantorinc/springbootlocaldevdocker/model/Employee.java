@@ -1,4 +1,5 @@
 package com.trantorinc.springbootlocaldevdocker.model;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +14,9 @@ public class Employee {
     private long id;
 
     @Column(name = "Name")
-    @Getter @Setter private String name;
+    @Getter
+    @Setter
+    private String name;
 
     public String toString() {
         return "Employee - Id: " + id + ", Name: " + name;
