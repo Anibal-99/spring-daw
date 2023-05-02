@@ -1,0 +1,11 @@
+{
+  "name": "Java 8",
+  "build": {
+    "dockerfile": "../local.Dockerfile",
+    "args": {
+      "VARIANT": "buster",
+      "GRADLE_VERSION": ""
+    },
+    "remoteUser": "vscode"
+  }
+}
