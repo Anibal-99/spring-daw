@@ -10,8 +10,8 @@ import com.trantorinc.springbootlocaldevdocker.model.Resource;
 @RestController
 @RequestMapping("/api")
 public class APIController {
-    @GetMapping("/")
-    private ResponseEntity<Resource> getRoot() {
-        return ResponseEntity.ok(new Resource(1, "samuca"));
-    }
+    // @GetMapping("/")
+    // private ResponseEntity<Resource> getRoot() {
+    // return ResponseEntity.ok(new Resource(1, "samuca"));
+    // }
 }

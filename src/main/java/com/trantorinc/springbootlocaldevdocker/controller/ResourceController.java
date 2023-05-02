@@ -1,7 +1,5 @@
 package com.trantorinc.springbootlocaldevdocker.controller;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -54,7 +52,8 @@ public class ResourceController {
           r.setDescription(resource.getDescription());
           return resourceRepository.save(r);
         })
-        .orElseThrow();
+        .orElseThrow(
+            () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No resources with specified ID were found"));
     return new ResponseEntity<Resource>(updatedResource, HttpStatus.OK);
   }
 
