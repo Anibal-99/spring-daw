@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Table(name = "resource")
 public class Resource {
   @Id
+  @Getter
   @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
 
