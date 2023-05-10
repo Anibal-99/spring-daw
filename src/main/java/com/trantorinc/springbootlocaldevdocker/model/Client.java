@@ -8,6 +8,7 @@ import javax.persistence.*;
 @Table(name = "client")
 public class Client {
     @Id
+    @Getter
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
