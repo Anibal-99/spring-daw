@@ -6,25 +6,23 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "resource")
-public class Resource {
+@Table(name = "state")
+public class State {
   @Id
-  @Getter
   @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
 
-  @Column(name = "Name")
+  @Column(name = "name")
   @Getter
   @Setter
   private String name;
 
-  @Column(name = "Description")
+  @Column(name = "description")
   @Getter
   @Setter
   private String description;
 
   public String toString() {
-    return "Resource - Id: " + id + ", Name: " + name;
+    return "State - Id: " + id + ", Name: " + name;
   }
-
 }
