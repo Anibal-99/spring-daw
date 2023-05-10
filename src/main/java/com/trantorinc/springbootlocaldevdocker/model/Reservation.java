@@ -41,6 +41,12 @@ public class Reservation {
   @Setter
   private State state;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "client_id")
+  @Getter
+  @Setter
+  private Client client;
+
   public String toString() {
     return "Reservation - Id: " + id + "State " + state;
   }
