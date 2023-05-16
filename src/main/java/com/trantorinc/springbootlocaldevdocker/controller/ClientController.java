@@ -57,4 +57,10 @@ public class ClientController {
         clientRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping(value = "/search", params = { "name" })
+    public ResponseEntity<Iterable<Client>> getClientsByName(
+            @RequestParam(name = "name", required = true) String name) {
+        return ResponseEntity.ok(clientRepository.findAllByNameContainsIgnoreCase(name));
+    }
 }
