@@ -25,7 +25,7 @@ public class PlaceController {
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    private ResponseEntity<Place> getClientById(@PathVariable Long id) {
+    private ResponseEntity<Place> getPlaceById(@PathVariable Long id) {
         Place place = placeRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "No place where found with the specified ID"));
