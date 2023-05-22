@@ -31,5 +31,4 @@ public class Place {
         inverseJoinColumns = {@JoinColumn(name="resource_id")}
     )
     private Set<Resource> resources= new HashSet<>();
-
 }
