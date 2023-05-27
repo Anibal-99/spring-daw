@@ -3,6 +3,9 @@ package com.trantorinc.springbootlocaldevdocker.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.*;
 
 @Entity
@@ -22,6 +25,9 @@ public class Resource {
   @Getter
   @Setter
   private String description;
+
+  @ManyToMany(mappedBy = "resources")
+  private Set<Place> places = new HashSet<>();
 
   public String toString() {
     return "Resource - Id: " + id + ", Name: " + name;

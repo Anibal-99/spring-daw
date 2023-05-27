@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Repository
-public class ClientRepositoryImpl {
+public class PlaceRepositoryImpl {
     @PersistenceContext
-    private EntityManager cl;
+    private EntityManager place;
 }
