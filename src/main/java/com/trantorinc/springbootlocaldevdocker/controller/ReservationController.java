@@ -1,17 +1,12 @@
 package com.trantorinc.springbootlocaldevdocker.controller;
-
-import org.springframework.http.MediaType;
-
-
+import com.trantorinc.springbootlocaldevdocker.jpa.ReservationRepository;
+import com.trantorinc.springbootlocaldevdocker.model.Reservation;
 import lombok.AllArgsConstructor;
-
+import org.springframework.http.MediaType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import com.trantorinc.springbootlocaldevdocker.jpa.ReservationRepository;
-import com.trantorinc.springbootlocaldevdocker.model.Reservation;
-
 import java.util.List;
 
 

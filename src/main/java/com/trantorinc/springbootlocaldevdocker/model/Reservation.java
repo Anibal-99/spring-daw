@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Table(name = "reservation")
 public class Reservation {
   @Id
+  @Getter
   @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
 
