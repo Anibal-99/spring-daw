@@ -21,6 +21,7 @@ import com.trantorinc.springbootlocaldevdocker.model.Resource;
 import lombok.AllArgsConstructor;
 
 @RestController
+// @CrossOrigin
 @RequestMapping("/api/resources/")
 @AllArgsConstructor
 public class ResourceController {

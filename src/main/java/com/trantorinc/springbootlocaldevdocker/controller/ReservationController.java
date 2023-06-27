@@ -1,4 +1,5 @@
 package com.trantorinc.springbootlocaldevdocker.controller;
+
 import com.trantorinc.springbootlocaldevdocker.jpa.ReservationRepository;
 import com.trantorinc.springbootlocaldevdocker.model.Reservation;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/reservations/")
 @AllArgsConstructor
+@CrossOrigin
 public class ReservationController {
     private ReservationRepository reservationRepository;
 
