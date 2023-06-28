@@ -1,16 +1,13 @@
 package com.trantorinc.springbootlocaldevdocker.controller;
-
-import com.trantorinc.springbootlocaldevdocker.jpa.PlaceRepository;
-import com.trantorinc.springbootlocaldevdocker.model.Place;
+import com.trantorinc.springbootlocaldevdocker.model.views.PlaceDto;
+import com.trantorinc.springbootlocaldevdocker.service.PlaceService;
 
 import lombok.AllArgsConstructor;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
 
 @RestController
@@ -18,43 +15,34 @@ import java.util.List;
 @RequestMapping("/api/places/")
 @AllArgsConstructor
 public class PlaceController {
-    private PlaceRepository placeRepository;
 
-    @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    private ResponseEntity<List<Place>> getAll() {
-        return ResponseEntity.ok(placeRepository.findAll());
+    @Autowired
+    private PlaceService placeService;
+
+    @GetMapping
+    public ResponseEntity<List<PlaceDto>> getPlaces() {
+        return new ResponseEntity<>(placeService.findAllPlaces(), HttpStatus.OK);
     }
 
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    private ResponseEntity<Place> getPlaceById(@PathVariable Long id) {
-        Place place = placeRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "No place where found with the specified ID"));
-        return new ResponseEntity<Place>(place, HttpStatus.OK);
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<PlaceDto> getPlaceById(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(placeService.getPlaceById(id), HttpStatus.OK);
     }
 
-    @PostMapping(path = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    private ResponseEntity<Place> createPlace(@RequestBody Place place) {
-        var createdPlace = placeRepository.save(place);
-        return ResponseEntity.ok(createdPlace);
+    @PostMapping("/create")
+    public ResponseEntity<PlaceDto> createPlace(@RequestBody PlaceDto place) {
+        return new ResponseEntity<>(placeService.createPlace(place), HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Place> updatePlace(@PathVariable Long id, @RequestBody Place place) {
-        Place updatedPlace = placeRepository.findById(id)
-                .map(p -> {
-                    p.setName(place.getName());
-                    return placeRepository.save(p);
-                })
-                .orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                                "No place with specified ID were found"));
-        return new ResponseEntity<Place>(updatedPlace, HttpStatus.OK);
-    }
-
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deletePlace(@PathVariable Long id) {
-        placeRepository.deleteById(id);
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<HttpStatus> deletePlace(@PathVariable("id") Long id) {
+        placeService.deletePlace(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<HttpStatus> updatePlace(@PathVariable Long id, @RequestBody PlaceDto place) {
+        placeService.updatePlace(id, place);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

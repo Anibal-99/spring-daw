@@ -1,36 +1,23 @@
 package com.trantorinc.springbootlocaldevdocker.model;
-
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.HashSet;
-import java.util.Set;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "resource")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Resource {
   @Id
-  @Getter
   @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
 
   @Column(name = "Name")
-  @Getter
-  @Setter
   private String name;
 
   @Column(name = "Description")
-  @Getter
-  @Setter
   private String description;
-
-  @ManyToMany(mappedBy = "resources")
-  private Set<Place> places = new HashSet<>();
-
-  public String toString() {
-    return "Resource - Id: " + id + ", Name: " + name;
-  }
-
 }

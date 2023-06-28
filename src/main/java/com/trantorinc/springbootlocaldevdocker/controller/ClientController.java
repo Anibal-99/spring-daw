@@ -1,12 +1,12 @@
 package com.trantorinc.springbootlocaldevdocker.controller;
-import com.trantorinc.springbootlocaldevdocker.jpa.ClientRepository;
-import com.trantorinc.springbootlocaldevdocker.model.Client;
+import com.trantorinc.springbootlocaldevdocker.model.views.ClientDto;
+import com.trantorinc.springbootlocaldevdocker.service.ClientService;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 
@@ -15,51 +15,33 @@ import java.util.List;
 @RequestMapping("/api/clients/")
 @AllArgsConstructor
 public class ClientController {
-    private ClientRepository clientRepository;
+    @Autowired
+    private ClientService clientService;
 
-    @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    private ResponseEntity<List<Client>> getAll() {
-        return ResponseEntity.ok(clientRepository.findAll());
+    @GetMapping
+    public ResponseEntity<List<ClientDto>> getClients() {
+        return new ResponseEntity<>(clientService.findAllClients(), HttpStatus.OK);
     }
 
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    private ResponseEntity<Client> getClientById(@PathVariable Long id) {
-        Client client = clientRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "No client where found with the specified ID"));
-        return new ResponseEntity<Client>(client, HttpStatus.OK);
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<ClientDto> getClientById(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(clientService.getClientById(id), HttpStatus.OK);
     }
 
-    @PostMapping(path = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    private ResponseEntity<Client> create(@RequestBody Client client) {
-        var createdClient = clientRepository.save(client);
-        return ResponseEntity.ok(createdClient);
+    @PostMapping("/create")
+    public ResponseEntity<ClientDto> createClient(@RequestBody ClientDto client) {
+        return new ResponseEntity<>(clientService.createClient(client), HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Client> updateClient(@PathVariable Long id, @RequestBody Client client) {
-        Client updatedClient = clientRepository.findById(id)
-                .map(c -> {
-                    c.setName(client.getName());
-                    c.setSurname(client.getSurname());
-                    c.setDni(client.getDni());
-                    return clientRepository.save(c);
-                })
-                .orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                                "No client with specified ID were found"));
-        return new ResponseEntity<Client>(updatedClient, HttpStatus.OK);
-    }
-
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deleteClient(@PathVariable Long id) {
-        clientRepository.deleteById(id);
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<HttpStatus> deleteClient(@PathVariable("id") Long id) {
+        clientService.deleteClient(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping(value = "/search", params = { "name" })
-    public ResponseEntity<Iterable<Client>> getClientsByName(
-            @RequestParam(name = "name", required = true) String name) {
-        return ResponseEntity.ok(clientRepository.findAllByNameContainsIgnoreCase(name));
+    @PutMapping("/update/{id}")
+    public ResponseEntity<HttpStatus> updateClient(@PathVariable Long id, @RequestBody ClientDto client) {
+        clientService.updateClient(id, client);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

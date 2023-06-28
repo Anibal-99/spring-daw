@@ -1,7 +1,8 @@
 package com.trantorinc.springbootlocaldevdocker.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import java.sql.Date;
@@ -10,45 +11,31 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "reservation")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Reservation {
   @Id
-  @Getter
   @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
 
   @Column(name = "title")
-  @Getter
-  @Setter
   private String title;
 
   @Column(name = "reason")
-  @Getter
-  @Setter
   private String reason;
 
   @Column(name = "time")
-  @Getter
-  @Setter
-  private Date time;
+  private Date date;
 
   @Column(name = "ammount")
-  @Getter
-  @Setter
   private float ammount;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "state_id")
-  @Getter
-  @Setter
   private State state;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "client_id")
-  @Getter
-  @Setter
   private Client client;
-
-  public String toString() {
-    return "Reservation - Id: " + id + "State " + state;
-  }
 }

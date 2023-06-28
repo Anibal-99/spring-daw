@@ -1,33 +1,29 @@
 package com.trantorinc.springbootlocaldevdocker.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
+
 
 @Entity
 @Table(name = "client")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+
 public class Client {
     @Id
-    @Getter
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     @Column(name = "name")
-    @Getter
-    @Setter
     private String name;
 
     @Column(name = "surname")
-    @Getter
-    @Setter
     private String surname;
 
     @Column(name = "dni")
-    @Getter
-    @Setter
     private Integer dni;
-
-    public String toString() {
-        return "Client - Id: " + id + ", Name: " + name;
-    }
 }
