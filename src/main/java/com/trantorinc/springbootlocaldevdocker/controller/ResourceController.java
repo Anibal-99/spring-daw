@@ -36,7 +36,7 @@ public class ResourceController {
         return new ResponseEntity<>(resourceService.createResource(resource), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteResource(@PathVariable("id") Long id) {
         resourceService.deleteResource(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

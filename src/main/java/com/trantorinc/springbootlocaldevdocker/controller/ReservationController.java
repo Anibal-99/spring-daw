@@ -31,18 +31,18 @@ public class ReservationController {
         return new ResponseEntity<>(reservationService.getReservationById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<ReservationDto> createReservation(@RequestBody ReservationDto reservation) {
         return new ResponseEntity<>(reservationService.createReservation(reservation), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteReservation(@PathVariable("id") Long id) {
         reservationService.deleteReservation(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<HttpStatus> updateReservation(@PathVariable Long id, @RequestBody ReservationDto reservation) {
         reservationService.updateReservation(id, reservation);
         return new ResponseEntity<>(HttpStatus.OK);

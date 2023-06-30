@@ -16,7 +16,8 @@ public class ReservationDto {
     private String title;
     private Date date;
     private float ammount;
+    private String reason;
     private ClientDto client;
     private StateDto state;
-    
+
 }
