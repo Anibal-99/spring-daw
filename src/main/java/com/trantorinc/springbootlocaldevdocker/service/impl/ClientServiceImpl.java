@@ -19,6 +19,8 @@ import javax.persistence.EntityNotFoundException;
 public class ClientServiceImpl implements ClientService {
     @Autowired
     private ClientRepository clientRepository;
+    @Autowired
+    private ReservationServiceImpl reservationService;
     private final ModelMapper modelMapper = new ModelMapper();
     private static final String ID_NOT_FOUND = "Client not found - id:";
  
@@ -42,6 +44,8 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void deleteClient(Long id) {
+        this.reservationService.deleteReservationByIdClient(id);
+
         Client client = clientRepository.findById(id)
                 .orElseThrow(() -> {
                     log.error(ID_NOT_FOUND + id, new EntityNotFoundException(ID_NOT_FOUND + id));

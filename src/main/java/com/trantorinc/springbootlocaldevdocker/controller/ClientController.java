@@ -28,18 +28,18 @@ public class ClientController {
         return new ResponseEntity<>(clientService.getClientById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<ClientDto> createClient(@RequestBody ClientDto client) {
         return new ResponseEntity<>(clientService.createClient(client), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteClient(@PathVariable("id") Long id) {
         clientService.deleteClient(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<HttpStatus> updateClient(@PathVariable Long id, @RequestBody ClientDto client) {
         clientService.updateClient(id, client);
         return new ResponseEntity<>(HttpStatus.OK);

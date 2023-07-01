@@ -69,4 +69,8 @@ public class ReservationServiceImpl implements ReservationService {
         reservationRepository.save(reservationToUpdate);
         log.info(String.format("Reservation %s updated successfully", reservationToUpdate.getTitle()));
     }
+
+    public void deleteReservationByIdClient(Long id) {
+        this.findAllReservations().stream().filter(r-> r.getClient().getId().equals(id)).forEach(r -> reservationRepository.delete(modelMapper.map(r, Reservation.class)));
+    }
 }

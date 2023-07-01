@@ -29,18 +29,19 @@ public class PlaceController {
         return new ResponseEntity<>(placeService.getPlaceById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<PlaceDto> createPlace(@RequestBody PlaceDto place) {
         return new ResponseEntity<>(placeService.createPlace(place), HttpStatus.CREATED);
     }
+    
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deletePlace(@PathVariable("id") Long id) {
         placeService.deletePlace(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<HttpStatus> updatePlace(@PathVariable Long id, @RequestBody PlaceDto place) {
         placeService.updatePlace(id, place);
         return new ResponseEntity<>(HttpStatus.OK);
