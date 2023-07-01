@@ -31,7 +31,7 @@ public class ResourceController {
         return new ResponseEntity<>(resourceService.getResourceById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<ResourceDto> createResource(@RequestBody ResourceDto resource) {
         return new ResponseEntity<>(resourceService.createResource(resource), HttpStatus.CREATED);
     }
@@ -42,7 +42,7 @@ public class ResourceController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<HttpStatus> updateResource(@PathVariable Long id, @RequestBody ResourceDto resource) {
         resourceService.updateResource(id, resource);
         return new ResponseEntity<>(HttpStatus.OK);
