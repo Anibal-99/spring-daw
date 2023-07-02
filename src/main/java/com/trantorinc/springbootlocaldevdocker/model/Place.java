@@ -3,7 +3,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
-import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import java.util.HashSet;
+import java.util.*;
 
 @Entity
 @Table(name = "place")
@@ -19,7 +23,26 @@ public class Place {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinTable(name = "place_resource",
+        joinColumns ={
+            @JoinColumn(name = "place_id", referencedColumnName = "id")
+        },
+        inverseJoinColumns = {
+            @JoinColumn(name="resource_id", referencedColumnName = "id")
+        }
+    )
+    @Column(name="place_resource")
+    @JsonManagedReference
     private List<Resource> resources;
 
+    public void addResource(Resource resource) {
+        this.resources.add(resource);
+        resource.getPlaces().add(this);
+    }
+ 
+    public void removeResource(Resource resource) {
+        this.resources.remove(resource);
+        resource.getPlaces().remove(this);
+    }
 }

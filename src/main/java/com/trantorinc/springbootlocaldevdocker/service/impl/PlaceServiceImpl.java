@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.trantorinc.springbootlocaldevdocker.jpa.PlaceRepository;
+import com.trantorinc.springbootlocaldevdocker.jpa.ResourceRepository;
 import com.trantorinc.springbootlocaldevdocker.model.Place;
+import com.trantorinc.springbootlocaldevdocker.model.Resource;
 import com.trantorinc.springbootlocaldevdocker.model.views.PlaceDto;
 import com.trantorinc.springbootlocaldevdocker.service.PlaceService;
 
@@ -19,12 +21,25 @@ public class PlaceServiceImpl implements PlaceService {
     
     @Autowired
     private PlaceRepository placeRepository;
+    @Autowired
+    private ResourceRepository resourceRepository;
     private final ModelMapper modelMapper = new ModelMapper();
     private static final String ID_NOT_FOUND = "Place not found - id:";
  
     @Override
     public PlaceDto createPlace(PlaceDto placeDto) {
         Place place = modelMapper.map(placeDto, Place.class);
+        place.getResources().clear();
+        // place.getResources().addAll(
+
+        placeDto.getResources()
+            .stream()
+            .map(resource -> {
+                return resourceRepository.findById(resource.getId()).get();
+            }).forEach(resource -> place.addResource(resource));
+        
+        // System.out.println(place.getResources());
+
         placeRepository.save(place);
         placeDto = modelMapper.map(place, PlaceDto.class);
         log.info(String.format("Place %s created successfully", place.getName()));

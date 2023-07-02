@@ -1,11 +1,11 @@
 package com.trantorinc.springbootlocaldevdocker.model.views;
-import java.util.List;
-import com.trantorinc.springbootlocaldevdocker.model.Resource;
+import com.trantorinc.springbootlocaldevdocker.model.views.ResourceDto;
 import lombok.Data;
+import java.util.*;
 
 @Data
 public class PlaceDto {
     private Long id;
     private String name;
-    private List<Resource> resources;
+    private List<ResourceDto> resources;
 }

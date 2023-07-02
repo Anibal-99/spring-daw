@@ -38,4 +38,7 @@ public class Reservation {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "client_id")
   private Client client;
+
+  @ManyToOne
+  private Place place;
 }
