@@ -3,6 +3,7 @@ import java.sql.Date;
 
 import com.trantorinc.springbootlocaldevdocker.model.views.ClientDto;
 import com.trantorinc.springbootlocaldevdocker.model.views.StateDto;
+import com.trantorinc.springbootlocaldevdocker.model.views.PlaceDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +18,7 @@ public class ReservationDto {
     private Date date;
     private float ammount;
     private String reason;
+    private PlaceDto place;
     private ClientDto client;
     private StateDto state;
 
