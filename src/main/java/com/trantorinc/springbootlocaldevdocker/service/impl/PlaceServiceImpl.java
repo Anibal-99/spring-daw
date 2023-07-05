@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.modelmapper.convention.MatchingStrategies;
 
 import com.trantorinc.springbootlocaldevdocker.jpa.PlaceRepository;
 import com.trantorinc.springbootlocaldevdocker.jpa.ResourceRepository;
@@ -27,25 +28,6 @@ public class PlaceServiceImpl implements PlaceService {
     private final ModelMapper modelMapper = new ModelMapper();
     private static final String ID_NOT_FOUND = "Place not found - id:";
 
-    @Override
-    public PlaceDto createPlace(PlaceDto placeDto) {
-        Place place = modelMapper.map(placeDto, Place.class);
-        place.getResources().clear();
-        // place.getResources().addAll(
-
-        placeDto.getResources()
-            .stream()
-            .map(resource -> {
-                return resourceRepository.findById(resource.getId()).get();
-            }).forEach(resource -> place.addResource(resource));
-
-        // System.out.println(place.getResources());
-
-        placeRepository.save(place);
-        placeDto = modelMapper.map(place, PlaceDto.class);
-        log.info(String.format("Place %s created successfully", place.getName()));
-        return placeDto;
-    }
 
     @Override
     public List<PlaceDto> findAllPlaces() {
@@ -77,9 +59,34 @@ public class PlaceServiceImpl implements PlaceService {
     }
 
     @Override
+    public PlaceDto createPlace(PlaceDto placeDto) {
+        Place place = modelMapper.map(placeDto, Place.class);
+        place.getResources().clear();
+
+        placeDto.getResources()
+            .stream()
+            .map(resource -> {
+                return resourceRepository.findById(resource.getId()).get();
+            }).forEach(resource -> place.addResource(resource));
+
+        placeRepository.save(place);
+        placeDto = modelMapper.map(place, PlaceDto.class);
+        log.info(String.format("Place %s created successfully", place.getName()));
+        return placeDto;
+    }
+
+    @Override
     public void updatePlace(Long id, PlaceDto placeDto) {
         Place placeToUpdate = modelMapper.map(placeDto, Place.class);
         placeToUpdate.setId(id);
+        placeToUpdate.getResources().clear();
+
+        placeDto.getResources()
+            .stream()
+            .map(resource -> {
+                return resourceRepository.findById(resource.getId()).get();
+            }).forEach(resource -> placeToUpdate.addResource(resource));
+
         placeRepository.save(placeToUpdate);
         log.info(String.format("Place %s updated successfully", placeToUpdate.getName()));
     }

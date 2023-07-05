@@ -8,5 +8,4 @@ public class ResourceDto {
     private Long id;
     private String name;
     private String description;
-    // private List<Place>;
 }
