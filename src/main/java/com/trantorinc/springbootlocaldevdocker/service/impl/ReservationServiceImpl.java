@@ -12,6 +12,7 @@ import com.trantorinc.springbootlocaldevdocker.jpa.ReservationRepository;
 import com.trantorinc.springbootlocaldevdocker.model.Reservation;
 import com.trantorinc.springbootlocaldevdocker.model.views.ReservationDto;
 import com.trantorinc.springbootlocaldevdocker.service.ReservationService;
+import org.springframework.data.domain.Sort;
 
 
 @Service
@@ -22,7 +23,7 @@ public class ReservationServiceImpl implements ReservationService {
     private ReservationRepository reservationRepository;
     private final ModelMapper modelMapper = new ModelMapper();
     private static final String ID_NOT_FOUND = "Reservation not found - id:";
- 
+
 
     @Override
     public ReservationDto createReservation(ReservationDto reservationDto) {
@@ -35,7 +36,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public List<ReservationDto> findAllReservations() {
-        List<Reservation> reservations = reservationRepository.findAll();
+        List<Reservation> reservations = reservationRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
         return reservations.stream()
                 .map(reservation -> modelMapper.map(reservation, ReservationDto.class))
                 .collect(Collectors.toList());

@@ -14,18 +14,19 @@ import com.trantorinc.springbootlocaldevdocker.model.Place;
 import com.trantorinc.springbootlocaldevdocker.model.Resource;
 import com.trantorinc.springbootlocaldevdocker.model.views.PlaceDto;
 import com.trantorinc.springbootlocaldevdocker.service.PlaceService;
+import org.springframework.data.domain.Sort;
 
 @Service
 @Slf4j
 public class PlaceServiceImpl implements PlaceService {
-    
+
     @Autowired
     private PlaceRepository placeRepository;
     @Autowired
     private ResourceRepository resourceRepository;
     private final ModelMapper modelMapper = new ModelMapper();
     private static final String ID_NOT_FOUND = "Place not found - id:";
- 
+
     @Override
     public PlaceDto createPlace(PlaceDto placeDto) {
         Place place = modelMapper.map(placeDto, Place.class);
@@ -37,7 +38,7 @@ public class PlaceServiceImpl implements PlaceService {
             .map(resource -> {
                 return resourceRepository.findById(resource.getId()).get();
             }).forEach(resource -> place.addResource(resource));
-        
+
         // System.out.println(place.getResources());
 
         placeRepository.save(place);
@@ -48,7 +49,7 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     public List<PlaceDto> findAllPlaces() {
-        List<Place> places = placeRepository.findAll();
+        List<Place> places = placeRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
         return places.stream()
                 .map(place -> modelMapper.map(place, PlaceDto.class))
                 .collect(Collectors.toList());

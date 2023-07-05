@@ -8,6 +8,7 @@ import com.trantorinc.springbootlocaldevdocker.jpa.ClientRepository;
 import com.trantorinc.springbootlocaldevdocker.model.Client;
 import com.trantorinc.springbootlocaldevdocker.model.views.ClientDto;
 import com.trantorinc.springbootlocaldevdocker.service.ClientService;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,7 +24,7 @@ public class ClientServiceImpl implements ClientService {
     private ReservationServiceImpl reservationService;
     private final ModelMapper modelMapper = new ModelMapper();
     private static final String ID_NOT_FOUND = "Client not found - id:";
- 
+
 
     @Override
     public ClientDto createClient(ClientDto clientDto) {
@@ -36,7 +37,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public List<ClientDto> findAllClients() {
-        List<Client> clients = clientRepository.findAll();
+        List<Client> clients = clientRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
         return clients.stream()
                 .map(client -> modelMapper.map(client, ClientDto.class))
                 .collect(Collectors.toList());
@@ -72,5 +73,5 @@ public class ClientServiceImpl implements ClientService {
         clientRepository.save(clientToUpdate);
         log.info(String.format("Client %s updated successfully", clientToUpdate.getName()));
     }
-    
+
 }

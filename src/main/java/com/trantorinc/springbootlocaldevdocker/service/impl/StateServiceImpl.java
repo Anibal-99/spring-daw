@@ -12,16 +12,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Sort;
 
 @Service
 @Slf4j
 public class StateServiceImpl implements StateService {
-    
+
     @Autowired
     private StateRepository stateRepository;
     private final ModelMapper modelMapper = new ModelMapper();
     private static final String ID_NOT_FOUND = "State not found - id:";
- 
+
     @Override
     public StateDto createState(StateDto stateDto) {
         State state = modelMapper.map(stateDto, State.class);
@@ -33,7 +34,7 @@ public class StateServiceImpl implements StateService {
 
     @Override
     public List<StateDto> findAllStates() {
-        List<State> states = stateRepository.findAll();
+        List<State> states = stateRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
         return states.stream()
                 .map(state -> modelMapper.map(state, StateDto.class))
                 .collect(Collectors.toList());

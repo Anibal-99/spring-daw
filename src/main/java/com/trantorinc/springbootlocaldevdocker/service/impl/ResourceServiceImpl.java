@@ -11,17 +11,18 @@ import com.trantorinc.springbootlocaldevdocker.jpa.ResourceRepository;
 import com.trantorinc.springbootlocaldevdocker.model.Resource;
 import com.trantorinc.springbootlocaldevdocker.model.views.ResourceDto;
 import com.trantorinc.springbootlocaldevdocker.service.ResourceService;
+import org.springframework.data.domain.Sort;
 
 
 @Service
 @Slf4j
 public class ResourceServiceImpl implements ResourceService{
-    
+
     @Autowired
     private ResourceRepository resourceRepository;
     private final ModelMapper modelMapper = new ModelMapper();
     private static final String ID_NOT_FOUND = "Resource not found - id:";
- 
+
 
     @Override
     public ResourceDto createResource(ResourceDto resourceDto) {
@@ -34,7 +35,7 @@ public class ResourceServiceImpl implements ResourceService{
 
     @Override
     public List<ResourceDto> findAllResources() {
-        List<Resource> resources = resourceRepository.findAll();
+        List<Resource> resources = resourceRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
         return resources.stream()
                 .map(resource -> modelMapper.map(resource, ResourceDto.class))
                 .collect(Collectors.toList());
