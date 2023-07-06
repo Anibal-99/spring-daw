@@ -9,10 +9,10 @@ name: Java Spring Boot CI/CD
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
   build:
@@ -27,6 +27,12 @@ jobs:
         with:
           java-version: '11'
 
+      - name: Set up PostgreSQL
+        uses: docker-compose-action@v2
+        with:
+          compose-file: docker-compose.yml
+          run: up -d
+
       - name: Build with Maven
         run: mvn clean install
 
@@ -34,8 +40,6 @@ jobs:
         run: mvn test
 
       # Add additional steps for code analysis, deployment, integration tests, monitoring, etc.
-
-
 
 
 # name: Java CI
